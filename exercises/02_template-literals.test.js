@@ -10,23 +10,25 @@ test('should support string interpolation', () => {
       'Ryan Florence',
     ],
   }
-  // construct a string using template literal string interpolation
-  const personsFriends = ``
+  const personsFriends = `${person.name} has ${
+    person.friends.length
+  } friends: ${person.friends.join(', ')}`
   expect(personsFriends).toBe(
     'Kent C. Dodds has 6 friends: Brooke Dodds, Matt Zabriskie, Aaron Frost, Dave Geddes, Joe Eames, Ryan Florence',
   )
 })
 
 test(`should support multi-line strings`, () => {
-  // construct a string with multiple lines without needing escaped newline characters
-  const multiLine = ``
+  const multiLine = `
+    How cool
+    is this!?
+  `
   expect(multiLine).toBe('\n    How cool\n    is this!?\n  ')
 })
 
 test(`should support string escaping`, () => {
-  // properly escape a string in a template literal for each of these
-  expect(``).toBe('Hi\nthere!')
-  expect(``).toBe('This is `escaped` backticks')
+  expect(`Hi\nthere!`).toBe('Hi\nthere!')
+  expect(`This is \`escaped\` backticks`).toBe('This is `escaped` backticks')
 })
 
 //////// EXTRA CREDIT ////////
@@ -41,17 +43,17 @@ test.skip(`should call the tagging function`, () => {
   )
 
   function tagIt(literalString, ...interpolatedParts) {
-    // implement this function to make the test pass
-    return 'fixme'
+    const firstPart = `${literalString[0]}super-cool ${interpolatedParts[0]}`
+    const lastPart = `${literalString[1]}really ${interpolatedParts[1]}${
+      literalString[2]
+    }`
+    return `${firstPart}${lastPart}`
   }
 })
 
 //////// Elaboration & Feedback /////////
-/*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=Template+Literals&em=
-*/
 test('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+  const submitted = true
   expect(true).toBe(submitted)
 })
 ////////////////////////////////

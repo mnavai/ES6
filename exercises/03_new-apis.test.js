@@ -1,25 +1,25 @@
 test(`should be easier to determine whether a string includes another`, () => {
   const sentence = 'It was the best of times. It was the worst of times'
-  // create a variable called `result` that is assigned to a call of sentence.includes
+  const result = sentence.includes('best of times')
   expect(result).toBe(true)
 })
 
 test(`should be easier to repeat a string`, () => {
   const repeated = 'abc123'
-  // create a variable called `result` that is the result of repeating the string 4 times
+  const result = repeated.repeat(4)
   expect(result).toBe('abc123abc123abc123abc123')
 })
 
 test(`should be able to take an array-like object and convert it into an array`, () => {
   const obj = {length: 3, 0: 'a', 1: 'b', 2: 'c'}
   // this is even more handy with a NodeList like that returned from document.querySelector
-  // create a variable called `result` and assign it to a call to Array.from
+  const result = Array.from(obj)
   expect(result).toEqual(['a', 'b', 'c'])
 })
 
 test(`should be easier to fill an array with values`, () => {
   const originalArray = new Array(5)
-  // create a variable called `result` and assign it to an array that's filled with 3s except for the first item.
+  const result = originalArray.fill(3, 1)
   expect(result).toEqual([, 3, 3, 3, 3]) // eslint-disable-line no-sparse-arrays
 })
 
@@ -50,7 +50,7 @@ test(`should be easy to copy properties from one object to another`, () => {
     d: true,
     p: ['x', 'y', 'z'],
   }
-  // merge the sources into the target using Object.assign
+  const result = Object.assign(target, source1, source2, source3)
 
   expect(result).toEqual({
     a: {
@@ -79,11 +79,8 @@ test(`should be easy to copy properties from one object to another`, () => {
 })
 
 //////// Elaboration & Feedback /////////
-/*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=New+APIS&em=
-*/
 test('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+  const submitted = true
   expect(true).toBe(submitted)
 })
 ////////////////////////////////

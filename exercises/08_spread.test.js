@@ -1,47 +1,69 @@
-test(`should be able to call a function and spread the arguments`, () => {
-  const args = ['a', 'b', 'c']
-  let calls = 0
-  // call myFunction using the spread operator with args
-  myFunction(...args)
-  expect(calls).toBe(1)
+test('can replace traditional functions', () => {
+  let fnMultiply, arrowMultiply
 
-  function myFunction(a, b, c) {
-    expect(a).toBe('a')
-    expect(b).toBe('b')
-    expect(c).toBe('c')
-    calls++
+  // Write two functions that take two params and return their product
+  // For 'fnMultiply', set it equal to a regular function
+  // For 'arrowMultiply', set it equal to an arrow function
+  fnMultiply = function(a, b) {
+    return a * b
   }
+
+  arrowMultiply = (a, b) => a * b
+
+  expect(fnMultiply(5, 5)).toBe(arrowMultiply(5, 5))
 })
 
-test(`should be easier to concatenate arrays`, () => {
-  const array1 = [1, 2, 3]
-  // create a result array that uses the spread operator to concatenate array1 with [4, 5, 6]
-  const result = [...array1,4,5,6]
-  expect(result).toEqual([1, 2, 3, 4, 5, 6])
 
+test('can replace traditional functions #2', () => {
+  const nums = [2, 5, 10]
+  // Replace the 'function' in this 'map' call with an arrow function.
+  // Hint: you shouldn't have any braces or 'return' after you are done
+  const squares = nums.map(num => num * num)
+
+  expect(squares.shift()).toBe(4)
+  expect(squares.shift()).toBe(25)
+  expect(squares.shift()).toBe(100)
 })
 
-test(`should be able to merge properties from objects`, () => {
-  const obj1 = {
-    foo: 'bar',
-    baz: 'foobar',
-  }
-  // create a result object that uses the spread operator to add `eggs: 'spam'` to what exists in obj1
-  const result = {
-    ...obj1,
-    eggs: 'spam',
+test('binds `this` to the eval scope, not the runtime scope', () => {
+  const person = {
+    name: 'Aaron',
+    greetFriends: function(friends) {
+      return friends.map(friend => this.name + ' greets to ' + friend)
+    },
   }
 
-  expect(result).toEqual({
-    foo: 'bar',
-    baz: 'foobar',
-    eggs: 'spam',
-  })
+  const friendsArray = ['Naomi', 'Jojo', 'Ryan', 'Owen']
+  expect(() => person.greetFriends(friendsArray)).not.toThrow()
+})
+
+test('can make array filter chains more managable', () => {
+  const data = [
+    {type: 'Widget', name: 'Sprocket', price: 10.0, qty: 3},
+    {type: 'Widget', name: 'Bracket', price: 1.0, qty: 5},
+    {type: 'Widget', name: 'Brace', price: 2.5, qty: 1},
+    {type: 'Widget', name: 'Sprocket', price: 4.0, qty: 2},
+    {type: 'Food', name: 'Gouda', price: 8.75, qty: 4},
+    {type: 'Food', name: 'Bacon', price: 3.5, qty: 3},
+    {type: 'CD', name: 'Queen Best Hits', price: 5.5, qty: 5},
+    {type: 'CD', name: 'Brittney Best Hits', price: 6.25, qty: 3},
+    {type: 'CD', name: 'JT Best Hits', price: 2.25, qty: 6},
+  ]
+
+  // REPLACE ALL REGULAR FUNCTIONS WITH ARROW FUNCTIONS
+  const shoppingList = data
+  .filter(d => d.type != 'Widget') // Remove Widgets
+  .filter(d => d.price < 5) // Find only remaining items with price < 5
+  .sort((a, b) => a.qty - b.qty) // Sort by quantity, desc
+  .map(d => d.name) // Pull just the name from each item
+
+  expect(shoppingList.shift()).toBe('Bacon')
+  expect(shoppingList.shift()).toBe('JT Best Hits')
 })
 
 //////// Elaboration & Feedback /////////
 /*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=Spread&em=
+http://ws.kcd.im/?ws=ES6+and+Beyond&e=Arrow+Functions&em=
 */
 test('I submitted my elaboration and feedback', () => {
   const submitted = true // change this when you've submitted!

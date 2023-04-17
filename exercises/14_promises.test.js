@@ -1,24 +1,15 @@
-// For each then() or catch() block, pick whether it should run or not
-// If it should run, tell which value it will receive in `result` or `error`
-// If it should not run, uncomment the error throwing statement
 test(`should resolve`, () => {
   return pickApple('ripe')
     .then(
       result => {
-        // throw new Error('this should not run')
-        // expect(result).toBe(/*ENTER GUESS HERE*/)
-        throw new Error('assert or throw here')
+        expect(result).toBe('ripe apple')
       },
       error => {
-        // throw new Error('this should not run')
-        // expect(error).toBe(/*ENTER GUESS HERE*/)
-        throw new Error('assert or throw here')
+        throw new Error('this should not run')
       },
     )
     .catch(error => {
-      // throw new Error('this should not run')
-      // expect(error).toBe(/*ENTER GUESS HERE*/)
-      throw new Error('assert or throw here')
+      throw new Error('this should not run')
     })
 })
 
@@ -26,34 +17,24 @@ test(`should reject`, () => {
   return pickApple('unripe')
     .then(
       result => {
-        // throw new Error('this should not run')
-        // expect(result).toBe(/*ENTER GUESS HERE*/)
-        throw new Error('assert or throw here')
+        throw new Error('this should not run')
       },
       error => {
-        // throw new Error('this should not run')
-        // expect(error).toBe(/*ENTER GUESS HERE*/)
-        throw new Error('assert or throw here')
+        expect(error).toBe('unripe apple')
       },
     )
     .catch(error => {
-      // throw new Error('this should not run')
-      // expect(error).toBe(/*ENTER GUESS HERE*/)
-      throw new Error('assert or throw here')
+      throw new Error('this should not run')
     })
 })
 
 test(`errors can be caught`, () => {
   return pickApple()
     .then(result => {
-      // throw new Error('this should not run')
-      // expect(result).toBe(/*ENTER GUESS HERE*/)
-      throw new Error('assert or throw here')
+      throw new Error('this should not run')
     })
     .catch(error => {
-      // throw new Error('this should not run')
-      // expect(error).toBe(/*ENTER GUESS HERE*/)
-      throw new Error('assert or throw here')
+      expect(error.message).toBe('out of apples')
     })
 })
 
@@ -75,11 +56,8 @@ function pickApple(ripeness) {
 }
 
 //////// Elaboration & Feedback /////////
-/*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=Promises&em=
-*/
 test('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+  const submitted = true
   expect(true).toBe(submitted)
 })
 ////////////////////////////////

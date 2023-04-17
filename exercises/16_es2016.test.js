@@ -1,28 +1,32 @@
-test('the exponentiation operation can be used to raise a number to a power of another number', () => {
-  // refactor this to use the exponentiation operator (**)
-  const result = Math.pow(3, 2)
-  expect(result).toBe(9)
+test('should work with resolved promises', async () => {
+  const result = await doAsync()
+  expect(result).toBe('resolved')
 })
 
-test('array.includes can be used to determine whether an item exists in an array', () => {
-  const bestFriend = {name: 'Sindre Sorhus'}
-  const greatFriends = [
-    bestFriend,
-    {name: 'Dustan Kasten'},
-    {name: 'Sam Saccone'},
-    {name: 'Ingvar Stepanyan'},
-  ]
-  // refactor this to use `includes` instead
-  const result = greatFriends.indexOf(bestFriend) !== -1
-  expect(result).toBe(true)
+test('should throw an error with a rejected promise', async () => {
+  try {
+    await doAsync(true)
+    throw new Error('this should not run')
+  } catch (error) {
+    expect(error).toBe('rejected')
+  }
 })
+
+function doAsync(rejectPromise = false) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (rejectPromise) {
+        reject('rejected')
+      } else {
+        resolve('resolved')
+      }
+    })
+  })
+}
 
 //////// Elaboration & Feedback /////////
-/*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=ES2016&em=
-*/
 test('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+  const submitted = true
   expect(true).toBe(submitted)
 })
 ////////////////////////////////

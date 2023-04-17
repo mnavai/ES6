@@ -1,7 +1,9 @@
 test('has a constructor for initialization', () => {
-  // Create an Animal class
-  // Add a constructor that takes one param, the name.
-  // Set this.name to the name passed in
+  class Animal {
+    constructor(name) {
+      this.name = name
+    }
+  }
 
   const animal = new Animal()
   const dog = new Animal('Dog')
@@ -11,8 +13,11 @@ test('has a constructor for initialization', () => {
 })
 
 test('constructor can have default param values', () => {
-  // Create an Animal class with a constructor
-  // Make your class default (using default params) the name to 'Honey Badger'
+  class Animal {
+    constructor(name = 'Honey Badger') {
+      this.name = name
+    }
+  }
 
   const animal = new Animal()
   const dog = new Animal('Dog')
@@ -22,7 +27,15 @@ test('constructor can have default param values', () => {
 })
 
 test('can have instance methods', () => {
-  // Create an Animal class, pass in the name to the constructor, and add a sayName function to the class definition
+  class Animal {
+    constructor(name = 'Honey Badger') {
+      this.name = name
+    }
+
+    sayName() {
+      return `My name is: ${this.name}`
+    }
+  }
 
   const animal = new Animal()
 
@@ -32,8 +45,19 @@ test('can have instance methods', () => {
 })
 
 test('can have static methods', () => {
-  // Create an Animal class, pass in the name to the constructor,
-  // and add a create method that takes a name and returns an instance
+  class Animal {
+    constructor(name = 'Honey Badger') {
+      this.name = name
+    }
+
+    sayName() {
+      return `My name is: ${this.name}`
+    }
+
+    static create(name) {
+      return new Animal(name)
+    }
+  }
 
   const animal = new Animal()
 
@@ -42,9 +66,17 @@ test('can have static methods', () => {
 })
 
 test('can extend another class', () => {
-  // Create an Animal class
-  // Create a Dog class that extends Animal
-  // Add sayName to Dog
+  class Animal {
+    constructor(name = 'Honey Badger') {
+      this.name = name
+    }
+  }
+
+  class Dog extends Animal {
+    sayName() {
+      return `My name is: ${this.name}`
+    }
+  }
 
   const dog = new Dog('Fido')
 
@@ -55,9 +87,14 @@ test('can extend another class', () => {
 })
 
 test('can use property setters and getters', () => {
-  // Create an Animal class (don't pass name into constructor)
-  // Add property setter for name
-  // Add property getter for name
+  class Animal {
+    set name(name) {
+      this._name = name
+    }
+    get name() {
+      return `${this._name} type of animal`
+    }
+  }
 
   const animal = new Animal()
   animal.name = 'Dog'
@@ -67,11 +104,8 @@ test('can use property setters and getters', () => {
 })
 
 //////// Elaboration & Feedback /////////
-/*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=Classes&em=
-*/
 test('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+  const submitted = true
   expect(true).toBe(submitted)
 })
 ////////////////////////////////

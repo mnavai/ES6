@@ -22,7 +22,8 @@ function getCharacter() {
 
 test('can wrap an existing object', () => {
   const character = getCharacter()
-  const proxy = character
+  const handler = {}
+  const proxy = new Proxy(character, handler)
   expect(proxy).not.toBe(character) // referential equality
   expect(proxy).toEqual(character) // deep equality
 })
@@ -30,7 +31,25 @@ test('can wrap an existing object', () => {
 test('handler can intercept gets, sets, and deletes', () => {
   const character = getCharacter()
 
-  const handler = {}
+  const handler = {
+    get(target, name) {
+      return name.split('.').reduce(Reflect.get, target)
+    },
+    set(target, name, value) {
+      const splitNames = name.split('.')
+      const lastIndex = splitNames.length - 1
+      const finalTarget = splitNames
+        .filter((item, index) => index < lastIndex)
+        .reduce(Reflect.get, target)
+      return Reflect.set(finalTarget, splitNames[lastIndex], value)
+    },
+    deleteProperty(target, name) {
+      if (name.startsWith('_')) {
+        return true // must return `true` to indicate that things are OK
+      }
+      return Reflect.deleteProperty(target, name)
+    },
+  }
   const proxy = new Proxy(character, handler)
 
   // interact with the proxy
@@ -53,7 +72,18 @@ test('handler can intercept gets, sets, and deletes', () => {
 test.skip('can intercept function calls', () => {
   const character = getCharacter()
 
-  const handler = {}
+  const handler = {
+    apply(target, thisArg, argumentsList) {
+      const result = Reflect.apply(target, thisArg, argumentsList)
+      if (typeof result === 'string') {
+        return result.replace(
+          new RegExp(`(${thisArg._id})|(${thisArg.password})`, 'g'),
+          'HIDDEN',
+        )
+      }
+      return result
+    },
+  }
   // notice that `apply` only works for proxies on functions!
   character.greet = new Proxy(character.greet, handler)
   character.getTeachers = new Proxy(character.getTeachers, handler)
@@ -77,7 +107,17 @@ test.skip('can be used to do some fancy stuff with arrays', () => {
     'Pigwidgeon',
   ]
 
-  const handler = {}
+  const handler = {
+    get(target, name) {
+      console.log({target, name})
+      if (name in target) {
+        return Reflect.get(target, name)
+      } else {
+        const index = Number(name)
+        return Reflect.get(target, target.length + index)
+      }
+    },
+  }
   const proxy = new Proxy(characters, handler)
   expect(proxy[0]).toBe('Harry Potter')
   expect(proxy[-1]).toBe('Pigwidgeon')
@@ -85,11 +125,8 @@ test.skip('can be used to do some fancy stuff with arrays', () => {
 })
 
 //////// Elaboration & Feedback /////////
-/*
-http://ws.kcd.im/?ws=ES6+and+Beyond&e=Proxies&em=
-*/
 test('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+  const submitted = true
   expect(true).toBe(submitted)
 })
 ////////////////////////////////
